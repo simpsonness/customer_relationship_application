@@ -36,7 +36,7 @@ class CRM
     when 1
       add_new_contact
     when 2
-      find 
+      modify_existing_contact 
     when 3
       delete_contact
     when 4
@@ -59,28 +59,37 @@ class CRM
     note = gets.chomp
     contact = Contact.new(first_name, last_name, email, note)
     Rolodex.add_contact(contact)
-     puts Rolodex.contacts.inspect
+    puts Rolodex.contacts.inspect
   end
 
-  def find
-    puts "Which number?"
-    number=gets.chomp.to_i
-    index = Rolodex.contacts.index {|c| c.id == number}
-     contact = Rolodex.contacts[index]
-     modify_existing_contact(contact, index)
-  end
+  
 
-  def modify_existing_contact(contact, index)
-    puts "which you like to change?"
-    puts "enter your new first name."
-      Rolodex.contacts[index].first_name = gets.chomp
-    puts "enter your new last name."
-      Rolodex.contacts[index].last_name = gets.chomp
-    puts "enter your new email."
-      Rolodex.contacts[index].email = gets.chomp
-    puts "enter your new note."
-      Rolodex.contacts[index].email = gets.chomp
-    end
+  def modify_existing_contact
+    display_all_contacts
+    puts "Enter id:"
+    index = gets.chomp.to_i - 1
+    contact = Rolodex.contacts[index]
+    puts "id: #{contact.id}"
+    puts "first name: #{contact.first_name}"
+    puts "last name: #{contact.last_name}"
+    puts "email: #{contact.email}"
+    puts "note: #{contact.note}"
+    print "Enter  First Name: "
+    first_name = gets.chomp
+    contact.first_name = first_name
+    print "Enter Last Name: "
+    last_name = gets.chomp
+    contact.last_name = last_name
+    print "Enter Email Address: "
+    email = gets.chomp
+    contact.email = email
+    print "Enter a Note: "
+    note = gets.chomp
+    contact.note = note
+  end
+    
+
+
 
   def delete_contact
     Rolodex.delete_contact
@@ -91,7 +100,14 @@ class CRM
   end
 
   def display_an_attribut
-    Rolodex.print_attribut 
+    puts "Enter id:"
+    index = gets.chomp.to_i - 1
+    contact = Rolodex.contacts[index]
+    puts contact.first_name
+    puts contact.last_name
+    puts contact.email
+    puts contact.note
+     
   end
 
   def exit
